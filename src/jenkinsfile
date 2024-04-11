@@ -1,27 +1,14 @@
-pipeline {
-    agent any
-
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Run Application') {
-            steps {
-                // Replace the following variables with your actual values
-                deploy(
-                    artifact: 'src/app.py',
-                    environment: 'local',
-                    servers: [
-                        [
-                            credentialsId: 'your-local-python-runtime-credentials-id',
-                            host: 'localhost'
-                        ]
-                    ]
-                )
-            }
-        }
+stage('Run Application') {
+    steps {
+        deploy(
+            artifact: 'src/app.py',
+            environment: 'local',
+            servers: [
+                [
+                    credentialsId: 'centos-python-runtime',
+                    host: 'localhost'
+                ]
+            ]
+        )
     }
 }

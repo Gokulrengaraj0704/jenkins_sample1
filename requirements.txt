@@ -1,2 +1,2 @@
 flask
-unittest-xml-reporting==3.2.0
+unittest-xml-reporting>=3.0.0,<4.0.0

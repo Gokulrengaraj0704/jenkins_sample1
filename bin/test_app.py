@@ -1,6 +1,9 @@
 import unittest
-from src.app import hello
+from manage import app
 
 class TestApp(unittest.TestCase):
     def test_hello(self):
-        self.assertEqual(hello(), "Hello, World!")
+        with app.test_client() as client:
+            response = client.get('/')
+            self.assertEqual(response.get_json(), {'message': 'Hello, World!'})
+

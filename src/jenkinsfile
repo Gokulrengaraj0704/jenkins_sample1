@@ -7,30 +7,24 @@ pipeline {
                 checkout scm
             }
         }
-        stage('version'){
-            steps{
-                sh 'python3 --version'
-            }
-        }
-
-    stage('Create Virtual Environment') {
+    stage('Install Python') {
         steps {
-        sh 'python3 -m venv env'
+        sh 'sudo apt-get update && sudo apt-get install -y python3 python3-pip'
         }
     }
 
-    stage('Install Dependencies') {
-        steps {
-        sh 'env/bin/pip install -r requirements.txt'
+      stage('Install Dependencies') {
+    steps {
+        sh 'python3 -m pip install -r requirements.txt'
+        }
     }
-}
-
-    stage('Run Tests') {
-        steps {
-            sh 'env/bin/python -m unittest discover -s bin -p "test_*.py"'
+      stage('Run Tests') {
+    steps {
+        sh 'python -m unittest discover -s bin -p "test_*.py"'
+        }
     }
-}
 
+    
     stage('Run Application') {
         steps {
             sh 'env/bin/python src/app.py'

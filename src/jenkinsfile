@@ -1,15 +1,29 @@
 pipeline {
-  agent any
-  stages {
-    stage('version') {
-      steps {
-        sh 'python3 --version'
-      }
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'pip install -r requirements.txt'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'python -m unittest discover -s src/tests -p "test_*.py"'
+            }
+        }
+
+        stage('Run Application') {
+            steps {
+                sh 'python src/app.py'
+            }
+        }
     }
-    stage('hello') {
-      steps {
-        sh 'python3 src/app.py'
-      }
-    }
-  }
 }

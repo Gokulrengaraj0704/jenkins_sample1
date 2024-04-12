@@ -13,22 +13,28 @@ pipeline {
             }
         }
 
-      stage('Install Dependencies') {
-    steps {
-        sh 'python3 -m pip install -r requirements.txt'
-        }
-      }
-
-        stage('Run Tests') {
-            steps {
-                sh 'python -m unittest discover -s bin -p "test_*.py"'
-            }
-        }
-
-        stage('Run Application') {
-            steps {
-                sh 'python src/app.py'
-            }
+    stage('Create Virtual Environment') {
+        steps {
+        sh 'python3 -m venv env'
         }
     }
+
+    stage('Install Dependencies') {
+        steps {
+        sh 'env/bin/pip install -r requirements.txt'
+    }
+}
+
+    stage('Run Tests') {
+        steps {
+            sh 'env/bin/python -m unittest discover -s bin -p "test_*.py"'
+    }
+}
+
+    stage('Run Application') {
+        steps {
+            sh 'env/bin/python src/app.py'
+        }
+    }
+}
 }
